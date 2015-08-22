@@ -37,3 +37,10 @@ Tick-Restart-Enabled: true
 # Restart if tick falls below:
 Restart-On-Tick-Below: 12
 ```
+
+- Restart-Timeout affects constraints. If this period hasn't expired since the last restart, the server will not attempt another restart. This is primarily here to prevent the "up-down" syndrom. If the server starts with a bad tick or bad memory vales, this will prevent it from shutting down instantly.
+- Time values can be provided in a 3d4h23m10s19ms format. Overflowing values as in "500m" are allowed.
+- Max-Log-Size is for the telemetry command, that shows some verbose output about server state.
+- Memory-Limit-Enabled is for the memory limit constraint. Once the memory limit provided by Memory-Limit has been reached, the server will restart. If this is set to true, the memory limit constraint is enabled.
+- Scheduled-Restart-Enabled is for the scheduled restarter. Once the time period provided by Restart-Force-Hours has expired, the server will restart. This is not affected by the Restart-Timeout value and will always happen.
+- Tick-Restart-Enabled is for the tick limit constraint. Once the tick is below Restart-On-Tick-Below, the server will restart.
