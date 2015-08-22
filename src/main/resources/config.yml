@@ -1,0 +1,7 @@
+# shorthand notations:
+# k - 1000
+# c - 100
+# m - 1000000
+Max-Log-Size: 10k
+# Set the memory limit for a restart.
+Memory-Limit: 90%

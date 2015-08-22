@@ -1,0 +1,27 @@
+name: SmartStart
+version: 0.1a
+description: Privodes a smarter way to restart the server.
+author: psygate
+main: com.psygate.smartstart.SmartStart
+database: false
+commands:
+    telemetry:
+        description: Provides telemetry about the server state.
+        aliases: stel
+        permission: smartstart.telemetry
+        usage: /stel
+    forcelimit:
+        description: Provides telemetry about the server state.
+        aliases: stfl
+        permission: smartstart.telemetry
+        usage: /stfl
+
+
+permissions:
+    smartstart.telemetry:
+        description: Allows access to the telemetry command.
+        default: op
+    smartstart.forcelimit:
+        description: Allows access to the force limit command.
+        default: op
+        
