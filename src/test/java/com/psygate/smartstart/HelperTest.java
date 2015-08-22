@@ -5,6 +5,7 @@
  */
 package com.psygate.smartstart;
 
+import com.psygate.smartrestart.Helper;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;

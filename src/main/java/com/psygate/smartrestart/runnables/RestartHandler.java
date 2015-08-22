@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.psygate.smartstart.runnables;
+package com.psygate.smartrestart.runnables;
 
-import com.psygate.smartstart.SmartStart;
-import com.psygate.smartstart.data.RestartCriteria;
+import com.psygate.smartrestart.SmartRestart;
+import com.psygate.smartrestart.data.RestartCriteria;
+import com.psygate.smartrestart.data.TickingRestartCriteria;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -43,7 +44,8 @@ public class RestartHandler implements Runnable {
         }
     }
 
-    private final List<RestartCriteria> criteria = new ArrayList<>();
+    private final List<RestartCriteria> criteria = new ArrayList<>(10);
+    private final List<TickingRestartCriteria> tickcriteria = new ArrayList<>(10);
     private boolean isRestart = false;
     private SortedMap<Long, String> warns = new TreeMap<>();
     private long scheduled = -1;
@@ -52,7 +54,10 @@ public class RestartHandler implements Runnable {
 
     @Override
     public void run() {
-        SmartStart smart = SmartStart.getInstance();
+        for (TickingRestartCriteria crit : tickcriteria) {
+            crit.tick();
+        }
+        SmartRestart smart = SmartRestart.getInstance();
         Checker checker = smart.getChecker();
 
         if (checker.getTicks() < 0) {
@@ -66,19 +71,21 @@ public class RestartHandler implements Runnable {
                     } else {
                         if (System.currentTimeMillis() - smart.getLastRestart() < smart.getConf().getTimeout()) {
                             crit.cancelledByTimeout();
+                        } else {
+                            triggerRestart(crit.getReason());
                         }
                     }
                 }
             }
         } else {
             if (!warns.isEmpty() && restartAfter - warns.lastKey() <= (System.currentTimeMillis() - scheduled)) {
-                Bukkit.broadcastMessage(ChatColor.YELLOW + reason + " Scheduled restart in " + warns.get(warns.lastKey()) + ".");
+                Bukkit.broadcastMessage(SmartRestart.PREFIX + ChatColor.YELLOW + reason + " scheduled restart in " + warns.get(warns.lastKey()) + ".");
                 warns.remove(warns.lastKey());
             }
 
             if (restartAfter <= (System.currentTimeMillis() - scheduled)) {
-                Bukkit.broadcastMessage(ChatColor.RED + "RESTART.");
-                SmartStart.getInstance().saveLastRestart();
+                Bukkit.broadcastMessage(SmartRestart.PREFIX + ChatColor.RED + "RESTART.");
+                SmartRestart.getInstance().saveLastRestart();
 
                 Bukkit.spigot().restart();
             }
@@ -95,7 +102,17 @@ public class RestartHandler implements Runnable {
         }
     }
 
+    public void addRestartCriteria(TickingRestartCriteria criteria) {
+        this.criteria.add(criteria);
+        this.tickcriteria.add(criteria);
+    }
+
     public void addRestartCriteria(RestartCriteria criteria) {
         this.criteria.add(criteria);
+    }
+
+    public void clearCriteria() {
+        this.criteria.clear();
+        this.tickcriteria.clear();
     }
 }

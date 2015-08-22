@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.psygate.smartstart.commands;
+package com.psygate.smartrestart.commands;
 
-import com.psygate.smartstart.runnables.Checker;
-import com.psygate.smartstart.data.Record;
-import com.psygate.smartstart.SmartStart;
+import com.psygate.smartrestart.runnables.Checker;
+import com.psygate.smartrestart.data.Record;
+import com.psygate.smartrestart.SmartRestart;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -74,7 +74,7 @@ public class TelemetryHandler implements CommandExecutor, Runnable {
 
     @Override
     public void run() {
-        Checker checker = SmartStart.getInstance().getChecker();
+        Checker checker = SmartRestart.getInstance().getChecker();
 
         if (checker.getTicks() < 0) {
             return;

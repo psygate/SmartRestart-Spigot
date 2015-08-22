@@ -1,38 +1,43 @@
-name: SmartStart
+name: SmartRestart
 version: 0.1a
 description: Privodes a smarter way to restart the server.
 author: psygate
-main: com.psygate.smartstart.SmartStart
+main: com.psygate.smartrestart.SmartRestart
 database: false
 commands:
-    telemetry:
+    srtelemetry:
         description: Provides telemetry about the server state.
-        aliases: stel
-        permission: smartstart.telemetry
-        usage: /stel
-    forcelimit:
+        aliases: srel
+        permission: smartrestart.telemetry
+        usage: /srel
+    srforcelimit:
         description: Provides telemetry about the server state.
-        aliases: stfl
-        permission: smartstart.forcelimit
-        usage: /stfl
-    forcetick:
+        aliases: srfl
+        permission: smartrestart.forcelimit
+        usage: /srfl
+    srforcetick:
         description: Provides telemetry about the server state.
-        aliases: stft
-        permission: smartstart.forcetick
-        usage: /stft
+        aliases: srft
+        permission: smartrestart.forcetick
+        usage: /srft
+    srreload:
+        description: Reloads the configuration.
+        aliases: srrl
+        permission: smartrestart.reload
+        usage: /srrl
 
 
 permissions:
-    smartstart.telemetry:
+    smartrestart.telemetry:
         description: Allows access to the telemetry command.
         default: op
-    smartstart.forcelimit:
+    smartrestart.forcelimit:
         description: Allows access to the force limit command.
         default: op
-    smartstart.forcetick:
+    smartrestart.forcetick:
         description: Allows access to the force tick command.
         default: op
-    smartstart.notifications:
+    smartrestart.notifications:
         description: Will turn on verbose notification for that person.
         default: op
         

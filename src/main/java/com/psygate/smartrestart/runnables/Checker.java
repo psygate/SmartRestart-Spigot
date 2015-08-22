@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.psygate.smartstart.runnables;
+package com.psygate.smartrestart.runnables;
 
-import com.psygate.smartstart.data.Record;
-import com.psygate.smartstart.SmartStart;
+import com.psygate.smartrestart.data.Record;
+import com.psygate.smartrestart.SmartRestart;
 import java.util.Collections;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -43,7 +43,7 @@ public class Checker implements Runnable {
         long timestamp = System.currentTimeMillis();
         records.put(timestamp, new Record(timestamp, memoryFree, memoryUsed, memoryTotal, lastCallDiff));
 
-        while (records.size() > SmartStart.getInstance().getConf().getLogSize()) {
+        while (records.size() > SmartRestart.getInstance().getConf().getLogSize()) {
             records.remove(records.firstKey());
         }
     }

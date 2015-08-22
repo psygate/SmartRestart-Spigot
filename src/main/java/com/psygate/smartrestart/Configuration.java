@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.psygate.smartstart;
+package com.psygate.smartrestart;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -29,8 +29,11 @@ public class Configuration {
     private long timeout = TimeUnit.MINUTES.toMillis(30);
     private long forceHours;
     private int tickLowerLimit;
+    private long memorySamplePeriod;
+    private long tickSamplePeriod;
+    private long messageRateLimit;
 
-    public Configuration(SmartStart start) {
+    public Configuration(SmartRestart start) {
         if (!Pattern.matches(logsizepattern, start.getConfig().getString("Max-Log-Size"))) {
             throw new IllegalArgumentException("Missconfiguration @Max-Log-Size");
         }
@@ -41,6 +44,10 @@ public class Configuration {
         memoryLimitRestartEnabled = start.getConfig().getBoolean("Memory-Limit-Enabled");
         scheduledRestartEnabled = start.getConfig().getBoolean("Scheduled-Restart-Enabled");
         tickRestartEnabled = start.getConfig().getBoolean("Tick-Restart-Enabled");
+        memorySamplePeriod = Helper.timeStringAsMillis(start.getConfig().getString("Memory-Sample-Period"));
+        tickSamplePeriod = Helper.timeStringAsMillis(start.getConfig().getString("Tick-Sample-Period"));
+        messageRateLimit = Helper.timeStringAsMillis(start.getConfig().getString("Message-Rate-Limit"));
+
         int logmod = 1;
         String logarg = start.getConfig().getString("Max-Log-Size");
         String parseLogStr = null;
@@ -95,6 +102,18 @@ public class Configuration {
 
     public int getTickLowerLimit() {
         return tickLowerLimit;
+    }
+
+    public long getMemorySamplePeriod() {
+        return memorySamplePeriod;
+    }
+
+    public long getTickSamplePeriod() {
+        return tickSamplePeriod;
+    }
+
+    public long getMessageRateLimit() {
+        return messageRateLimit;
     }
 
 }

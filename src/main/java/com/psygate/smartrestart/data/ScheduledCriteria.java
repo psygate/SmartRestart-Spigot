@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.psygate.smartstart.data;
+package com.psygate.smartrestart.data;
 
-import com.psygate.smartstart.SmartStart;
+import com.psygate.smartrestart.SmartRestart;
 import java.util.logging.Level;
 
 /**
@@ -26,12 +26,12 @@ public class ScheduledCriteria implements RestartCriteria {
 
     @Override
     public boolean isCriteriaViolated() {
-        return System.currentTimeMillis() - SmartStart.getInstance().getLastRestart() > SmartStart.getInstance().getConf().getForceHours();
+        return System.currentTimeMillis() - SmartRestart.getInstance().getLastRestart() > SmartRestart.getInstance().getConf().getForceHours();
     }
 
     @Override
     public void cancelledByTimeout() {
-        SmartStart.getInstance().getLogger().log(Level.WARNING, "Cancelled timeout should NOT affect scheduled restarter.");
+        SmartRestart.getInstance().getLogger().log(Level.WARNING, "Cancelled timeout should NOT affect scheduled restarter.");
     }
 
     @Override

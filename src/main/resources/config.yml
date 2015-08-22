@@ -18,6 +18,8 @@ Max-Log-Size: 10k
 Memory-Limit-Enabled: true
 # Set the memory limit for a restart.
 Memory-Limit: 90%
+# Set the sample size for memory records.
+Memory-Sample-Period: 5m
 # Enables restart on time.
 Scheduled-Restart-Enabled: true
 #This forces a restart every X hours.
@@ -26,3 +28,8 @@ Restart-Force-Hours: 24h
 Tick-Restart-Enabled: true
 # Restart if tick falls below:
 Restart-On-Tick-Below: 12
+# Set the sample size for tick records.
+Tick-Sample-Period: 5m
+
+#Message rate limit. If a message has been sent less than X ago, it won't be repeated.
+Message-Rate-Limit: 30s

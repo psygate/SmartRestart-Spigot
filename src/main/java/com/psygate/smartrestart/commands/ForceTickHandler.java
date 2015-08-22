@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.psygate.smartstart.commands;
+package com.psygate.smartrestart.commands;
 
-import com.psygate.smartstart.SmartStart;
+import com.psygate.smartrestart.SmartRestart;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -28,12 +28,12 @@ public class ForceTickHandler implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
-        if (active) {
-            myid = Bukkit.getScheduler().scheduleSyncRepeatingTask(SmartStart.getInstance(), new Runnable() {
+        if (!active) {
+            myid = Bukkit.getScheduler().scheduleSyncRepeatingTask(SmartRestart.getInstance(), new Runnable() {
 
                 @Override
                 public void run() {
-                    long lag = TimeUnit.SECONDS.toMillis(1) / SmartStart.getInstance().getConf().getTickLowerLimit();
+                    long lag = TimeUnit.SECONDS.toMillis(1) / (SmartRestart.getInstance().getConf().getTickLowerLimit() - 2);
 
                     try {
                         Thread.sleep(lag);
@@ -42,11 +42,12 @@ public class ForceTickHandler implements CommandExecutor {
                     }
                 }
             }, 1, 1);
-            cs.sendMessage(SmartStart.PREFIX + ChatColor.GOLD + "Tick plunging forced.");
+            cs.sendMessage(SmartRestart.PREFIX + ChatColor.GOLD + "Tick plunging forced.");
+            active = true;
         } else {
             Bukkit.getScheduler().cancelTask(myid);
-            cs.sendMessage(SmartStart.PREFIX + ChatColor.GOLD + "Tick plunging un-forced.");
-
+            cs.sendMessage(SmartRestart.PREFIX + ChatColor.GOLD + "Tick plunging un-forced.");
+            active = false;
         }
         return true;
     }
