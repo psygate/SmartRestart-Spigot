@@ -13,8 +13,13 @@ commands:
     forcelimit:
         description: Provides telemetry about the server state.
         aliases: stfl
-        permission: smartstart.telemetry
+        permission: smartstart.forcelimit
         usage: /stfl
+    forcetick:
+        description: Provides telemetry about the server state.
+        aliases: stft
+        permission: smartstart.forcetick
+        usage: /stft
 
 
 permissions:
@@ -23,5 +28,11 @@ permissions:
         default: op
     smartstart.forcelimit:
         description: Allows access to the force limit command.
+        default: op
+    smartstart.forcetick:
+        description: Allows access to the force tick command.
+        default: op
+    smartstart.notifications:
+        description: Will turn on verbose notification for that person.
         default: op
         
