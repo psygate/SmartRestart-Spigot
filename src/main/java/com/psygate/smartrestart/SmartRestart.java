@@ -5,6 +5,7 @@
  */
 package com.psygate.smartrestart;
 
+import com.psygate.smartrestart.commands.CmdRestartHandler;
 import com.psygate.smartrestart.runnables.RestartHandler;
 import com.psygate.smartrestart.runnables.Checker;
 import com.psygate.smartrestart.commands.TelemetryHandler;
@@ -36,6 +37,8 @@ public class SmartRestart extends JavaPlugin {
     private Checker checker;
     private TelemetryHandler telemetryhandler = new TelemetryHandler();
     private RestartHandler restarthandler = new RestartHandler();
+    private CmdRestartHandler cmdrestart = new CmdRestartHandler();
+
     private Configuration conf;
     public final static String PREFIX = "[SmartRestart]";
 
@@ -58,8 +61,10 @@ public class SmartRestart extends JavaPlugin {
         Bukkit.getPluginCommand("srforcelimit").setExecutor(new ForceLimitHandler());
         Bukkit.getPluginCommand("srforcetick").setExecutor(new ForceTickHandler());
         Bukkit.getPluginCommand("srreload").setExecutor(new ReloadHandler());
+        Bukkit.getPluginCommand("srrestart").setExecutor(cmdrestart);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, telemetryhandler, 1, 1);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, restarthandler, 1, 1);
+
         if (conf.isMemoryLimitRestartEnabled()) {
             restarthandler.addRestartCriteria(new MemoryCriteria());
         }
@@ -71,6 +76,8 @@ public class SmartRestart extends JavaPlugin {
         if (conf.isTickRestartEnabled()) {
             restarthandler.addRestartCriteria(new TickCriteria());
         }
+
+        restarthandler.addRestartCriteria(cmdrestart.getCrc());
 
         //This makes spigot mandatory for this plugin.
         Bukkit.spigot().getConfig();
