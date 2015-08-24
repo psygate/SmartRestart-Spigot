@@ -10,6 +10,7 @@ import com.psygate.smartrestart.data.Record;
 import com.psygate.smartrestart.SmartRestart;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -38,9 +39,9 @@ public class TelemetryHandler implements CommandExecutor, Runnable {
 
     static {
         telemetrytemplate.append(PREFIX).append(" Telemetry @Tick($TICKS$):\n");
-        telemetrytemplate.append("\tMemory Usage: $MEMORUSAGE$%\n");
-        telemetrytemplate.append("\tFree Memory: $FREEMEMORY$%\n");
-        telemetrytemplate.append("\tAvg. Millis / Tick: $AVGMILLISPERTICK$ms");
+        telemetrytemplate.append("Memory Usage: $MEMORUSAGE$%\n");
+        telemetrytemplate.append("Free Memory: $FREEMEMORY$%\n");
+        telemetrytemplate.append("Avg. Millis / Tick: $AVGMILLISPERTICK$ms");
     }
 
     private final Map<UUID, Long> receivers = new HashMap<>();
@@ -90,10 +91,13 @@ public class TelemetryHandler implements CommandExecutor, Runnable {
         replace(nowmsg, FREE_MEMORY_TOKEN, Float.toString(freememory));
         replace(nowmsg, AVG_MILLIS_TOKEN, getAvgTimePerTick(checker.getRecords()));
 
-        for (Map.Entry<UUID, Long> en : receivers.entrySet()) {
+        Iterator<Map.Entry<UUID, Long>> it = receivers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<UUID, Long> en = it.next();
             if (checker.getTicks() % en.getValue() == 0) {
                 Player p = Bukkit.getPlayer(en.getKey());
                 if (p == null) {
+                    it.remove();
                     continue;
                 }
                 p.sendMessage(nowmsg.toString());

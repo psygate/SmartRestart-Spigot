@@ -25,6 +25,10 @@ commands:
         aliases: srrl
         permission: smartrestart.reload
         usage: /srrl
+    srrestart:
+        description: Restarts the server per request.
+        permission: smartrestart.restart
+        usage: /srrestart
 
 
 permissions:
@@ -39,5 +43,8 @@ permissions:
         default: op
     smartrestart.notifications:
         description: Will turn on verbose notification for that person.
+        default: op
+    smartrestart.restart:
+        description: Will restart the server.
         default: op
         

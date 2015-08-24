@@ -55,7 +55,7 @@ public class MemoryCriteria implements TickingRestartCriteria {
 
     @Override
     public boolean isCriteriaViolated() {
-        if (memoryLog.isEmpty() || memoryLog.firstKey() > System.currentTimeMillis() - SmartRestart.getInstance().getConf().getTickSamplePeriod()) {
+        if (memoryLog.isEmpty() || memoryLog.firstKey() > System.currentTimeMillis() - SmartRestart.getInstance().getConf().getMemorySamplePeriod()) {
             return false;
         }
 
@@ -67,7 +67,7 @@ public class MemoryCriteria implements TickingRestartCriteria {
 
         val /= subset.size();
 
-        return MemoryInterface.getUsedMemoryPercent() >= val;
+        return val >= SmartRestart.getInstance().getConf().getMemoryLimit();
     }
 
     @Override
