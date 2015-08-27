@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author florian
+ * @author psygate (http://github.com/psygate)
  */
 public class HelperTest {
 

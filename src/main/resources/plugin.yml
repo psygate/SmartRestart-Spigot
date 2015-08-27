@@ -29,6 +29,10 @@ commands:
         description: Restarts the server per request.
         permission: smartrestart.restart
         usage: /srrestart
+    srstop:
+        description: Stops the server within a given time limit.
+        permission: smartrestart.stop
+        usage: /srstop
 
 
 permissions:
@@ -46,5 +50,8 @@ permissions:
         default: op
     smartrestart.restart:
         description: Will restart the server.
+        default: op
+    smartrestart.stop:
+        description: Allows access to the stop command.
         default: op
         
